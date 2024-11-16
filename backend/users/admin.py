@@ -40,7 +40,6 @@ class UsersAdmin(UserAdmin):
         return user.subscriptions_to_author.count()
 
 
-
 @admin.register(Subscribe)
 class SubscribeAdmin(admin.ModelAdmin):
     list_display = ('user', 'author')

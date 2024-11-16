@@ -89,13 +89,13 @@ class SubscribePOSTSerializer(serializers.ModelSerializer):
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
-        fields = ('name', 'measurement_unit')
+        fields = '__all__'
 
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ('name', 'slug')
+        fields = '__all__'
 
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):
@@ -128,6 +128,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                   'is_favorited', 'is_in_shopping_cart',
                   'name', 'image',
                   'text', 'cooking_time')
+
 
 class RecipeIngredientCreateSerializer(serializers.ModelSerializer):
     """Сериализатор ингредиента для создания рецепта."""

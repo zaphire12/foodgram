@@ -20,10 +20,9 @@ from core.constants import FILE_NAME
 from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
                             ShoppingCart, Tag)
 from users.serializers import AvatarSerializer, UserSerializer
+from users.models import Subscribe
 
 User = get_user_model()
-
-from users.models import Subscribe
 
 
 class UserViewSet(DjoserUserViewSet):
@@ -64,8 +63,12 @@ class UserViewSet(DjoserUserViewSet):
         author = get_object_or_404(User, id=id)
         deleted, _ = Subscribe.objects.filter(user=request.user,
                                               author=author).delete()
-        return Response(status=status.HTTP_204_NO_CONTENT if deleted
-        else status.HTTP_400_BAD_REQUEST)
+        return Response(
+            status=(
+                status.HTTP_204_NO_CONTENT if deleted
+                else status.HTTP_400_BAD_REQUEST
+            )
+        )
 
     @action(detail=False, methods=('put',), url_path='me/avatar',
             permission_classes=(IsAuthenticated,))
@@ -85,7 +88,6 @@ class UserViewSet(DjoserUserViewSet):
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
-
     queryset = Ingredient.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = IngredientSerializer
@@ -95,7 +97,6 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
-
     queryset = Tag.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = TagSerializer
@@ -103,7 +104,6 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
-
     permission_classes = (IsAuthorOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
@@ -142,8 +142,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = get_object_or_404(Recipe, pk=pk)
         deleted, _ = Favorite.objects.filter(user=request.user,
                                              recipe=recipe).delete()
-        return Response(status=status.HTTP_204_NO_CONTENT if deleted
-        else status.HTTP_400_BAD_REQUEST)
+        return Response(
+            status=(
+                status.HTTP_204_NO_CONTENT if deleted
+                else status.HTTP_400_BAD_REQUEST
+            )
+        )
 
     @action(detail=True, methods=('post',))
     def shopping_cart(
@@ -160,8 +164,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = get_object_or_404(Recipe, pk=pk)
         deleted, _ = ShoppingCart.objects.filter(user=request.user,
                                                  recipe=recipe).delete()
-        return Response(status=status.HTTP_204_NO_CONTENT if deleted
-        else status.HTTP_400_BAD_REQUEST)
+        return Response(
+            status=(
+                status.HTTP_204_NO_CONTENT if deleted
+                else status.HTTP_400_BAD_REQUEST
+            )
+        )
 
     @action(detail=False, methods=('get',),
             permission_classes=(IsAuthenticated,))
@@ -190,7 +198,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = get_object_or_404(Recipe, pk=pk)
         short_url_path = reverse('redirect_to_original', kwargs={
             'slug': recipe.short_url}
-                                 )
+        )
         short_link = request.build_absolute_uri(short_url_path)
         return Response({'short-link': short_link}, status=status.HTTP_200_OK)
 
