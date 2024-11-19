@@ -31,7 +31,7 @@ services:
     image: zaphire12/foodgram_gateway
     env_file: .env
     ports:
-      - 8000:80
+      - 9000:80
     volumes:
       - static:/static/
       - media:/media
