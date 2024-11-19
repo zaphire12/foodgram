@@ -19,8 +19,8 @@ from api.serializers import (FavoriteSerializer, IngredientSerializer,
 from core.constants import FILE_NAME
 from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
                             ShoppingCart, Tag)
-from users.serializers import AvatarSerializer, UserSerializer
 from users.models import Subscribe
+from users.serializers import AvatarSerializer, UserSerializer
 
 User = get_user_model()
 
