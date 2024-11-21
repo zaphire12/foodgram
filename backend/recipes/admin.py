@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from core.constants import INGREDIENT_MIN_AMOUNT
-from recipes.models import Ingredient, RecipeIngredient, Tag, Favorite, ShoppingCart, Recipe
+from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
+                            ShoppingCart, Tag)
 
 
 class RecipeIngredientInline(admin.TabularInline):
