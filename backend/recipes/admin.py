@@ -33,8 +33,6 @@ class AuthorRecipeAdmin(admin.ModelAdmin):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    """Админка Рецептов."""
-
     list_display = ('name', 'author', 'in_favorites',
                     'get_ingredients', 'get_tags', 'image_tag')
     list_display_links = ('name', 'author')
