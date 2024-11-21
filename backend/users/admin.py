@@ -27,7 +27,8 @@ class UsersAdmin(UserAdmin):
     @admin.display(description='Аватар')
     def avatar_tag(self, user):
         if user.avatar:
-            return mark_safe(f'<img src="{user.avatar.url}" '
+            return mark_safe(f'<img src="{user.avatar.url}"'
+                             'style="border-radius: 50%; object-fit: cover; '
                              'width="80" height="60">')
         return 'Нет аватара'
 
