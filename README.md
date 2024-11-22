@@ -1,5 +1,7 @@
 # Foodgragm - социальная сеть для обмена рецептами.
 
+[Перейти на сайт Foodgragm](https://zaphire-kittygram.zapto.org)
+
 [![Main foodgram workflow](https://github.com/zaphire12/foodgram/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/zaphire12/foodgram/actions/workflows/main.yml)
 
 
