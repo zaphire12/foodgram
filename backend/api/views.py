@@ -17,9 +17,7 @@ from api.serializers import (FavoriteSerializer, IngredientSerializer,
                              ShoppingCartSerializer, SubscribeGETSerializer,
                              SubscribePOSTSerializer, TagSerializer)
 from core.constants import FILE_NAME
-from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
-                            ShoppingCart, Tag)
-from users.models import Subscribe
+from recipes.models import Ingredient, Recipe, RecipeIngredient, Tag
 from users.serializers import AvatarSerializer, UserSerializer
 
 User = get_user_model()
@@ -61,7 +59,8 @@ class UserViewSet(DjoserUserViewSet):
     @subscribe.mapping.delete
     def unsubscribe(self, request, id=None):
         author = get_object_or_404(User, id=id)
-        deleted, _ = request.user.user_subscriptions.filter(author=author).delete()
+        deleted, _ = request.user.user_subscriptions.filter(
+            author=author).delete()
         return Response(
             status=(
                 status.HTTP_204_NO_CONTENT if deleted
@@ -193,7 +192,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = get_object_or_404(Recipe, pk=pk)
         short_url_path = reverse('redirect_to_original', kwargs={
             'slug': recipe.short_url}
-                                 )
+        )
         short_link = request.build_absolute_uri(short_url_path)
         return Response({'short-link': short_link}, status=status.HTTP_200_OK)
 

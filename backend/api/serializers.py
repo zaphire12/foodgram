@@ -1,5 +1,4 @@
 from django.db import transaction
-from djoser.serializers import UserSerializer as DjoserUserSerializer
 from drf_base64.fields import Base64ImageField
 from rest_framework import serializers
 
