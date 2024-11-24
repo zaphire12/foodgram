@@ -61,8 +61,7 @@ class UserViewSet(DjoserUserViewSet):
     @subscribe.mapping.delete
     def unsubscribe(self, request, id=None):
         author = get_object_or_404(User, id=id)
-        deleted, _ = Subscribe.objects.filter(user=request.user,
-                                              author=author).delete()
+        deleted, _ = request.user.user_subscriptions.filter(author=author).delete()
         return Response(
             status=(
                 status.HTTP_204_NO_CONTENT if deleted
@@ -117,12 +116,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
         if user.is_authenticated:
             queryset = queryset.annotate(
                 is_favorited=Exists(
-                    Favorite.objects.filter(user=user,
-                                            recipe=OuterRef('pk'))
+                    user.favorites.filter(recipe=OuterRef('pk'))
                 ),
                 is_in_shopping_cart=Exists(
-                    ShoppingCart.objects.filter(user=user,
-                                                recipe=OuterRef('pk'))
+                    user.shopping_carts.filter(recipe=OuterRef('pk'))
                 )
             )
         return queryset
@@ -140,8 +137,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     @favorite.mapping.delete
     def delete_favorite(self, request, pk=None):
         recipe = get_object_or_404(Recipe, pk=pk)
-        deleted, _ = Favorite.objects.filter(user=request.user,
-                                             recipe=recipe).delete()
+        deleted, _ = request.user.favorites.filter(recipe=recipe).delete()
         return Response(
             status=(
                 status.HTTP_204_NO_CONTENT if deleted
@@ -162,8 +158,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     @shopping_cart.mapping.delete
     def delete_shopping_cart(self, request, pk=None):
         recipe = get_object_or_404(Recipe, pk=pk)
-        deleted, _ = ShoppingCart.objects.filter(user=request.user,
-                                                 recipe=recipe).delete()
+        deleted, _ = request.user.shopping_carts.filter(recipe=recipe).delete()
         return Response(
             status=(
                 status.HTTP_204_NO_CONTENT if deleted
@@ -198,7 +193,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = get_object_or_404(Recipe, pk=pk)
         short_url_path = reverse('redirect_to_original', kwargs={
             'slug': recipe.short_url}
-        )
+                                 )
         short_link = request.build_absolute_uri(short_url_path)
         return Response({'short-link': short_link}, status=status.HTTP_200_OK)
 

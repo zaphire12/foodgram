@@ -4,11 +4,11 @@ from recipes.models import Ingredient, Recipe, Tag
 
 
 class IngredientFilter(rest_framework.FilterSet):
-    name = rest_framework.CharFilter(lookup_expr='istartswith')
+    name = rest_framework.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = Ingredient
-        fields = ('name',)
+        fields = ('name', 'measurement_unit')
 
 
 class RecipeFilter(rest_framework.FilterSet):

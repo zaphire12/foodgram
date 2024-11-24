@@ -7,19 +7,7 @@ from core.constants import INGREDIENT_MIN_AMOUNT, MAX_POSITIVE_VALUE
 from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
                             ShoppingCart, Tag)
 from users.models import Subscribe, User
-
-
-class UserSerializer(DjoserUserSerializer):
-    is_subscribed = serializers.SerializerMethodField()
-
-    class Meta(DjoserUserSerializer.Meta):
-        model = User
-        fields = DjoserUserSerializer.Meta.fields + ('is_subscribed', 'avatar')
-
-    def get_is_subscribed(self, obj):
-        user = self.context.get('request').user
-        return (user.is_authenticated
-                and user.user_subscriptions.filter(author=obj).exists())
+from users.serializers import UserSerializer
 
 
 class AvatarSerializer(serializers.ModelSerializer):
@@ -69,7 +57,7 @@ class SubscribePOSTSerializer(serializers.ModelSerializer):
         fields = ('user', 'author')
 
     def validate(self, data):
-        user = self.context.get('request').user
+        user = self.context['request'].user
         author = data['author']
         if user == author:
             raise serializers.ValidationError(

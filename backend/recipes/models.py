@@ -114,13 +114,13 @@ class Recipe(models.Model):
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
 
+    def __str__(self):
+        return self.name
+
     def save(self, *args, **kwargs):
         if not self.short_url:
             self.short_url = generate_short_url(self.__class__)
         super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.name
 
 
 class RecipeIngredient(models.Model):
