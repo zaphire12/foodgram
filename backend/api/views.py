@@ -118,7 +118,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                     user.favorites.filter(recipe=OuterRef('pk'))
                 ),
                 is_in_shopping_cart=Exists(
-                    user.shopping_carts.filter(recipe=OuterRef('pk'))
+                    user.shoppingcarts.filter(recipe=OuterRef('pk'))
                 )
             )
         return queryset
